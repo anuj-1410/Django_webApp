@@ -16,8 +16,10 @@ pipeline {
         stage('Setup Environment') {
             steps {
                 sh '''
+                    which python3 || (echo "Python3 not found!" && exit 1)
                     python3 -m venv venv
                     . venv/bin/activate
+                    pip install --upgrade pip
                     pip install -r requirements.txt
                 '''
             }
@@ -54,8 +56,11 @@ pipeline {
         stage('Build and Push') {
             steps {
                 script {
-                    sh "docker build -t ${DOCKER_IMAGE} ."
-                    sh "docker push ${DOCKER_IMAGE}"
+                    sh '''
+                        echo "$Anujagr1410#?" | docker login -u "$anuj1410" --password-stdin
+                        docker build -t ${DOCKER_IMAGE} .
+                        docker push ${DOCKER_IMAGE}
+                    '''
                 }
             }
         }
