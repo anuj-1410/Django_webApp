@@ -4,23 +4,15 @@ pipeline {
     environment {
         DOCKER_IMAGE = "anuj1410/studentproject:latest"
         DJANGO_SETTINGS_MODULE = "core.settings"
+        CONDA_PATH = "C:/Softwares/ANNA"
     }
 
     stages {
-        stage('Checkout Code') {
-            steps {
-                git branch: 'main', 
-                url: 'https://github.com/anuj-1410/Django_webApp.git'
-            }
-        }
-
         stage('Setup Environment') {
             steps {
                 sh '''
-                    #!/bin/bash
-                    python3 -m venv venv
-                    source venv/bin/activate
-                    pip install --upgrade pip
+                    source $CONDA_PATH/Scripts/activate base
+                    python --version
                     pip install -r requirements.txt
                 '''
             }
@@ -29,7 +21,7 @@ pipeline {
         stage('Run Migrations') {
             steps {
                 sh '''
-                    . venv/bin/activate
+                    source $CONDA_PATH/Scripts/activate base
                     python manage.py makemigrations
                     python manage.py migrate
                 '''
@@ -39,7 +31,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh '''
-                    . venv/bin/activate
+                    source $CONDA_PATH/Scripts/activate base
                     python manage.py test
                 '''
             }
@@ -48,7 +40,7 @@ pipeline {
         stage('Collect Static Files') {
             steps {
                 sh '''
-                    . venv/bin/activate
+                    source $CONDA_PATH/Scripts/activate base
                     python manage.py collectstatic --noinput
                 '''
             }
@@ -79,3 +71,5 @@ pipeline {
         }
     }
 }
+
+
