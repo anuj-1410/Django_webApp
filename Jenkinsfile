@@ -1,8 +1,14 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.9-slim'
+            args '-v /tmp:/tmp'
+        }
+    }
 
     environment {
         DOCKER_IMAGE = "anuj1410/studentproject:latest"
+        DJANGO_SETTINGS_MODULE = "core.settings"
     }
 
     stages {
@@ -16,10 +22,8 @@ pipeline {
         stage('Setup Environment') {
             steps {
                 sh '''
-                    which python3 || (echo "Python3 not found!" && exit 1)
-                    python3 -m venv venv
+                    python -m venv venv  # Use 'python' instead of 'python3'
                     . venv/bin/activate
-                    pip install --upgrade pip
                     pip install -r requirements.txt
                 '''
             }
