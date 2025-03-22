@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "anuj1410/studentproject:latest"
+        DOCKER_HOST = "tcp://host.docker.internal:2375"
     }
 
     stages {
