@@ -3,66 +3,35 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "anuj1410/studentproject:latest"
-        DJANGO_SETTINGS_MODULE = "core.settings"
     }
 
     stages {
-        stage('Setup Environment') {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', 
+                url: 'https://github.com/anuj-1410/Django_webApp.git'
+            }
+        }
+
+        stage('Build Docker Image') {
             steps {
                 script {
-                    sh '''
-                        python --version
-                        python -m venv venv
-                        . venv/bin/activate
-                        pip install --upgrade pip
-                        pip install -r requirements.txt
-                    '''
+                    sh "docker build -t ${DOCKER_IMAGE} ."
                 }
             }
         }
 
-        stage('Run Migrations') {
+        stage('Push to Docker Hub') {
             steps {
-                script {
-                    sh '''
-                        . venv/bin/activate
-                        python manage.py makemigrations
-                        python manage.py migrate
-                    '''
-                }
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                script {
-                    sh '''
-                        . venv/bin/activate
-                        python manage.py test
-                    '''
-                }
-            }
-        }
-
-        stage('Collect Static Files') {
-            steps {
-                script {
-                    sh '''
-                        . venv/bin/activate
-                        python manage.py collectstatic --noinput
-                    '''
-                }
-            }
-        }
-
-        stage('Build and Push') {
-            steps {
-                script {
-                    sh '''
-                        echo "Anujagr1410#?" | docker login -u "anuj1410" --password-stdin
-                        docker build -t ${DOCKER_IMAGE} .
+                withCredentials([usernamePassword(
+                    credentialsId: '2575e28b-9664-4255-aa2e-2ec05a134947',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh """
+                        echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
                         docker push ${DOCKER_IMAGE}
-                    '''
+                    """
                 }
             }
         }
@@ -71,12 +40,6 @@ pipeline {
     post {
         always {
             cleanWs()
-        }
-        success {
-            echo 'Pipeline succeeded! Docker image pushed to registry.'
-        }
-        failure {
-            echo 'Pipeline failed! Check logs for details.'
         }
     }
 }
