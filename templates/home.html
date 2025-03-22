@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container text-center py-5">
+        <h1 class="display-4 mb-4">Full-Stack Web & Cloud Solutions</h1>
+        <p class="lead mb-4">Building Scalable Digital Experiences for the Modern Web</p>
+        <a href="{% url 'services' %}" class="btn btn-light btn-lg">Explore Services</a>
+    </div>
+</section>
+
+<section class="features py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <i class="fas fa-code fa-3x text-primary mb-3"></i>
+                        <h3>Web Development</h3>
+                        <p>Custom web applications built with modern frameworks like Django, React, and Node.js</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <i class="fas fa-cloud fa-3x text-primary mb-3"></i>
+                        <h3>Cloud Services</h3>
+                        <p>AWS, Azure, and Google Cloud solutions with DevOps integration</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+                        <h3>Security First</h3>
+                        <p>Enterprise-grade security and compliance solutions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

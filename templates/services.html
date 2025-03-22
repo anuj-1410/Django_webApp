@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Our Services{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Our Core Services</h2>
+        
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="service-card card h-100 shadow">
+                    <div class="card-body">
+                        <h3><i class="fas fa-laptop-code text-primary me-2"></i>Web Development</h3>
+                        <ul class="list-unstyled">
+                            <li>✔ Custom Web Applications</li>
+                            <li>✔ E-Commerce Solutions</li>
+                            <li>✔ API Development & Integration</li>
+                            <li>✔ Progressive Web Apps</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 mb-4">
+                <div class="service-card card h-100 shadow">
+                    <div class="card-body">
+                        <h3><i class="fas fa-cloud text-primary me-2"></i>Cloud Solutions</h3>
+                        <ul class="list-unstyled">
+                            <li>✔ Cloud Architecture Design</li>
+                            <li>✔ Serverless Implementations</li>
+                            <li>✔ DevOps & CI/CD Pipelines</li>
+                            <li>✔ Cloud Migration Services</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow">
+                    <div class="card-body text-center">
+                        <i class="fas fa-database fa-2x text-primary mb-3"></i>
+                        <h4>Database Solutions</h4>
+                        <p>SQL/NoSQL optimization, scaling, and management</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow">
+                    <div class="card-body text-center">
+                        <i class="fas fa-mobile-alt fa-2x text-primary mb-3"></i>
+                        <h4>Mobile Backend</h4>
+                        <p>Secure and scalable mobile app backend services</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-line fa-2x text-primary mb-3"></i>
+                        <h4>Analytics</h4>
+                        <p>Real-time data processing and business intelligence</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
