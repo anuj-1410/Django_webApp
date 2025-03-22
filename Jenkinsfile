@@ -4,7 +4,6 @@ pipeline {
     environment {
         DOCKER_IMAGE = "anuj1410/studentproject:latest"
         DJANGO_SETTINGS_MODULE = "core.settings"
-        CONDA_PATH = "/C/Softwares/ANNA" // Use correct path format for Linux
     }
 
     stages {
@@ -12,9 +11,10 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        export PATH="$CONDA_PATH/bin:$PATH"
-                        source $CONDA_PATH/bin/activate base
                         python --version
+                        python -m venv venv
+                        . venv/bin/activate
+                        pip install --upgrade pip
                         pip install -r requirements.txt
                     '''
                 }
@@ -25,8 +25,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        export PATH="$CONDA_PATH/bin:$PATH"
-                        source $CONDA_PATH/bin/activate base
+                        . venv/bin/activate
                         python manage.py makemigrations
                         python manage.py migrate
                     '''
@@ -38,8 +37,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        export PATH="$CONDA_PATH/bin:$PATH"
-                        source $CONDA_PATH/bin/activate base
+                        . venv/bin/activate
                         python manage.py test
                     '''
                 }
@@ -50,8 +48,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        export PATH="$CONDA_PATH/bin:$PATH"
-                        source $CONDA_PATH/bin/activate base
+                        . venv/bin/activate
                         python manage.py collectstatic --noinput
                     '''
                 }
