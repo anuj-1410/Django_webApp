@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.9-slim'
-            args '-v /tmp:/tmp'
-        }
-    }
+    agent any
 
     environment {
         DOCKER_IMAGE = "anuj1410/studentproject:latest"
@@ -22,8 +17,10 @@ pipeline {
         stage('Setup Environment') {
             steps {
                 sh '''
-                    python -m venv venv  # Use 'python' instead of 'python3'
-                    . venv/bin/activate
+                    #!/bin/bash
+                    python3 -m venv venv
+                    source venv/bin/activate
+                    pip install --upgrade pip
                     pip install -r requirements.txt
                 '''
             }
