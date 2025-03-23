@@ -3,6 +3,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('2575e28b-9664-4255-aa2e-2ec05a134947')
         IMAGE_NAME = "anuj1410/studentproject:latest"
+        DOCKER_HOST = "tcp://host.docker.internal:2375"
     }
     stages {
         stage('Checkout Code') {
