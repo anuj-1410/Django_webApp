@@ -15,7 +15,10 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${env.IMAGE_NAME}", "-f sampleProject1/Dockerfile sampleProject1")
+                    dockerImage = docker.build(
+                        "${env.IMAGE_NAME}", 
+                        "-f dockerfile ."
+                    )
                 }
             }
         }
