@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('7e5cf86a-50dc-422a-ac28-9dc6eb828b88')
+        DOCKERHUB_CREDENTIALS = credentials('docker-login1410')
         IMAGE_NAME = "anuj1410/studentproject:latest"
         DOCKER_HOST = "unix:///var/run/docker.sock"
     }
