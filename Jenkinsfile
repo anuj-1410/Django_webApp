@@ -1,11 +1,9 @@
 pipeline {
     agent any
-
     environment {
-        DOCKER_IMAGE = "anuj1410/studentproject:latest"
-        DOCKER_HOST = "tcp://host.docker.internal:2375"
+        DOCKERHUB_CREDENTIALS = credentials('2575e28b-9664-4255-aa2e-2ec05a134947')
+        IMAGE_NAME = "anuj1410/studentproject:latest"
     }
-
     stages {
         stage('Checkout Code') {
             steps {
@@ -13,34 +11,23 @@ pipeline {
                 url: 'https://github.com/anuj-1410/Django_webApp.git'
             }
         }
-
-        stage('Build Docker Image') {
+        
+        stage('Build Image') {
             steps {
                 script {
-                    sh "docker build -t ${DOCKER_IMAGE} ."
+                    dockerImage = docker.build("${env.IMAGE_NAME}", "-f sampleProject1/Dockerfile sampleProject1")
                 }
             }
         }
-
-        stage('Push to Docker Hub') {
+        
+        stage('Push Image') {
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: '2575e28b-9664-4255-aa2e-2ec05a134947',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS'
-                )]) {
-                    sh """
-                        echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
-                        docker push ${DOCKER_IMAGE}
-                    """
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
+                        dockerImage.push()
+                    }
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            cleanWs()
         }
     }
 }
