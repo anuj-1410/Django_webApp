@@ -18,10 +18,11 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${env.IMAGE_NAME}", "-f Dockerfile .")
+                    def dockerImage = docker.build("${env.IMAGE_NAME}", "-f Dockerfile .")
                 }
             }
         }
+
         
         stage('Push Docker Image') {
             steps {
