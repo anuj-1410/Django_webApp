@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('docker-login1410')
         IMAGE_NAME = "anuj1410/studentproject:latest"
         DOCKER_HOST = "unix:///var/run/docker.sock"
     }
@@ -27,11 +26,13 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker-login1410') {
+                        def dockerImage = docker.image("${env.IMAGE_NAME}")
                         dockerImage.push()
                     }
                 }
             }
         }
+
     }
 }
